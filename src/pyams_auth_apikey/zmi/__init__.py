@@ -146,6 +146,15 @@ class APIKeyAddFormHelp(AlertMessage):
     icon_class = 'fas fa-radiation'
 
 
+@subscriber(IDataExtractedEvent, form_selector=APIKeyAddForm)
+def handle_apikey_add_form_data(event):
+    """Handle new API key data"""
+    data = event.data
+    name = data.get('name')
+    if name and (name in event.form.context):
+        event.form.widgets.errors += (Invalid(_("This key name is already used!")),)
+
+
 @adapter_config(required=(IAPIKeyConfiguration, IAdminLayer, APIKeyAddForm),
                 provides=IAJAXFormRenderer)
 class APIKeyAddFormRenderer(ContextRequestViewAdapter):
