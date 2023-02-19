@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE 1.0\n"
-"POT-Creation-Date: 2023-02-18 19:30+0100\n"
+"POT-Creation-Date: 2023-02-19 02:22+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -78,7 +78,7 @@ msgid "Selected principal can't be another API key!"
 msgstr ""
 
 #: ./src/pyams_auth_apikey/interfaces.py:86
-#: ./src/pyams_auth_apikey/zmi/container.py:156
+#: ./src/pyams_auth_apikey/zmi/container.py:158
 msgid "Activation date"
 msgstr ""
 
@@ -87,7 +87,7 @@ msgid "This key will be enabled only after this date"
 msgstr ""
 
 #: ./src/pyams_auth_apikey/interfaces.py:90
-#: ./src/pyams_auth_apikey/zmi/container.py:173
+#: ./src/pyams_auth_apikey/zmi/container.py:175
 msgid "Expiration date"
 msgstr ""
 
@@ -127,34 +127,34 @@ msgstr ""
 msgid "Name of the HTTP header used to provide the API key"
 msgstr ""
 
-#: ./src/pyams_auth_apikey/plugin.py:157
-#: ./src/pyams_auth_apikey/zmi/__init__.py:195
+#: ./src/pyams_auth_apikey/plugin.py:156
+#: ./src/pyams_auth_apikey/zmi/__init__.py:206
 #, python-format
 msgid "API key: {}"
 msgstr ""
 
-#: ./src/pyams_auth_apikey/plugin.py:332
+#: ./src/pyams_auth_apikey/plugin.py:349
 msgid "API keys authentication"
 msgstr ""
 
-#: ./src/pyams_auth_apikey/zmi/container.py:50
-#: ./src/pyams_auth_apikey/zmi/container.py:205
+#: ./src/pyams_auth_apikey/zmi/container.py:51
+#: ./src/pyams_auth_apikey/zmi/container.py:207
 msgid "API keys"
 msgstr ""
 
-#: ./src/pyams_auth_apikey/zmi/container.py:87
+#: ./src/pyams_auth_apikey/zmi/container.py:89
 msgid "Click icon to enable or disable this API key"
 msgstr ""
 
-#: ./src/pyams_auth_apikey/zmi/container.py:112
+#: ./src/pyams_auth_apikey/zmi/container.py:114
 msgid "Name"
 msgstr ""
 
-#: ./src/pyams_auth_apikey/zmi/container.py:124
+#: ./src/pyams_auth_apikey/zmi/container.py:126
 msgid "Label"
 msgstr ""
 
-#: ./src/pyams_auth_apikey/zmi/container.py:140
+#: ./src/pyams_auth_apikey/zmi/container.py:142
 msgid "Principal"
 msgstr ""
 
@@ -163,22 +163,26 @@ msgstr ""
 msgid "API keys configuration"
 msgstr ""
 
-#: ./src/pyams_auth_apikey/zmi/__init__.py:65
-#: ./src/pyams_auth_apikey/zmi/__init__.py:88
+#: ./src/pyams_auth_apikey/zmi/__init__.py:67
+#: ./src/pyams_auth_apikey/zmi/__init__.py:90
 msgid "Add API key"
 msgstr ""
 
-#: ./src/pyams_auth_apikey/zmi/__init__.py:86
-#: ./src/pyams_auth_apikey/zmi/__init__.py:194
+#: ./src/pyams_auth_apikey/zmi/__init__.py:88
+#: ./src/pyams_auth_apikey/zmi/__init__.py:205
 msgid "Plug-in: API keys authentication"
 msgstr ""
 
-#: ./src/pyams_auth_apikey/zmi/__init__.py:141
+#: ./src/pyams_auth_apikey/zmi/__init__.py:143
 msgid ""
 "WARNING: the API key won't be displayed after it's creation!\n"
 "You must copy it NOW and keep it safe!!"
 msgstr ""
 
-#: ./src/pyams_auth_apikey/zmi/__init__.py:197
+#: ./src/pyams_auth_apikey/zmi/__init__.py:157
+msgid "This key name is already used!"
+msgstr ""
+
+#: ./src/pyams_auth_apikey/zmi/__init__.py:208
 msgid "API key properties"
 msgstr ""

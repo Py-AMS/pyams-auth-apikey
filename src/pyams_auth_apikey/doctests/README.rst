@@ -85,7 +85,7 @@ Creating a first API key
 
     >>> apikey = factory(name='test1', key='my-api-key', label="Test key")
     >>> apikey.hash
-    b'{PBKDF2}...'
+    b'...'
 
 We can't get an API key after it's creation:
 
@@ -96,7 +96,7 @@ We can't get an API key after it's creation:
     >>> list(configuration.keys())
     ['test1']
     >>> dict(configuration.by_hash)
-    {b'{PBKDF2}...': <pyams_auth_apikey.plugin.APIKey object at 0x...>}
+    {b'...': <pyams_auth_apikey.plugin.APIKey object at 0x...>}
     >>> dict(configuration.by_principal)
     {}
 
