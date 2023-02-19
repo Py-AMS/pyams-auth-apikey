@@ -1,0 +1,11 @@
+
+!/.installed.cfg
+!/eggs/
+!/bin/
+!/parts/
+!/develop-eggs/
+!/src/pyams_auth_apikey/**/__pycache__/
+!/src/pyams_auth_apikey.egg-info/
+/.coverage
+/coverage.xml
+/.scannerwork/

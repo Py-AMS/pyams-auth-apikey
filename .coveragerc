@@ -1,0 +1,3 @@
+[run]
+source = src/pyams_auth_apikey
+omit = src/pyams_auth_apikey/tests/*,src/pyams_auth_apikey/zmi/*
