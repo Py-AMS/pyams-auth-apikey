@@ -76,7 +76,7 @@ class APIKey(Persistent, Contained):
         """API key setter, only stores hash"""
         registry = get_pyramid_registry()
         encoder = registry.getUtility(IPasswordManager, name='PBKDF2')
-        self.hash = encoder.encodePassword(value, salt=APIKEY_SALT)
+        self.hash = encoder.encodePassword(value, salt=APIKEY_SALT)[8:]
 
     @property
     def enabled(self):
@@ -242,7 +242,7 @@ class APIKeyConfiguration(Folder):
         """Convert key to it's hash"""
         registry = get_pyramid_registry()
         encoder = registry.getUtility(IPasswordManager, name='PBKDF2')
-        return encoder.encodePassword(key, salt=APIKEY_SALT)
+        return encoder.encodePassword(key, salt=APIKEY_SALT)[8:]
 
     @check_enabled
     def find_active_key(self, key):
