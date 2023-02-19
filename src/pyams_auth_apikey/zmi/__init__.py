@@ -21,13 +21,15 @@ import random
 import sys
 from datetime import datetime, timedelta
 
-from zope.interface import Interface
+from pyramid.events import subscriber
+from zope.interface import Interface, Invalid
 
 from pyams_auth_apikey.interfaces import IAPIKey, IAPIKeyConfiguration
 from pyams_auth_apikey.zmi.interfaces import IAPIKeyContainerTable
 from pyams_form.ajax import ajax_form_config
 from pyams_form.field import Fields
-from pyams_form.interfaces.form import IAJAXFormRenderer, IGroup
+from pyams_form.interfaces import DISPLAY_MODE
+from pyams_form.interfaces.form import IAJAXFormRenderer, IDataExtractedEvent, IGroup
 from pyams_layer.interfaces import IPyAMSLayer
 from pyams_security.interfaces import ISecurityManager, IViewContextPermissionChecker
 from pyams_security.interfaces.base import MANAGE_SECURITY_PERMISSION
@@ -206,6 +208,13 @@ class APIKeyPropertiesEditForm(AdminModalEditForm):
     legend = _("API key properties")
 
     fields = Fields(IAPIKey).omit('key', 'enabled', 'restrict_referrers', 'allowed_referrers')
+
+    def update_widgets(self, prefix=None):
+        """Widgets update"""
+        super().update_widgets(prefix)
+        name = self.widgets.get('name')
+        if name is not None:
+            name.mode = DISPLAY_MODE
 
 
 @adapter_config(name='referrers.group',
