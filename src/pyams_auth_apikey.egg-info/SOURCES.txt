@@ -15,7 +15,6 @@ src/pyams_auth_apikey.egg-info/not-zip-safe
 src/pyams_auth_apikey.egg-info/requires.txt
 src/pyams_auth_apikey.egg-info/top_level.txt
 src/pyams_auth_apikey/doctests/README.rst
-src/pyams_auth_apikey/generations/__init__.py
 src/pyams_auth_apikey/locales/pyams_auth_apikey.pot
 src/pyams_auth_apikey/locales/fr/LC_MESSAGES/pyams_auth_apikey.mo
 src/pyams_auth_apikey/locales/fr/LC_MESSAGES/pyams_auth_apikey.po
@@ -23,4 +22,6 @@ src/pyams_auth_apikey/tests/__init__.py
 src/pyams_auth_apikey/tests/test_utilsdocs.py
 src/pyams_auth_apikey/tests/test_utilsdocstrings.py
 src/pyams_auth_apikey/zmi/__init__.py
+src/pyams_auth_apikey/zmi/container.py
+src/pyams_auth_apikey/zmi/interfaces.py
 src/pyams_auth_apikey/zmi/plugin.py

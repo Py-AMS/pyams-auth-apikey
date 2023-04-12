@@ -51,7 +51,7 @@ An API key can also be bound to a specific principal; in this case, using this A
 be equivalent to being connected with the matching principal credentials.
 
 At first, API keys can only be provided using a specific HTTP header which can be configured
-for each key; maybe other authentication modes will be provided in future versions.
+for all keys; maybe other authentication modes will be provided in future versions.
 
 
 Changelog
