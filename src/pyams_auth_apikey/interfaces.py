@@ -118,7 +118,6 @@ class IAPIKeyConfiguration(IContainer):
                            required=True,
                            default='X-API-Key')
 
-    by_name = Attribute("API keys mapping by key name")
     by_hash = Attribute("API keys mapping by key hash")
     by_principal = Attribute("API keys mapping by principal ID")
 
