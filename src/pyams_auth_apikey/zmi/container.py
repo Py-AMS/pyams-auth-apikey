@@ -15,6 +15,7 @@
 This module defines components which are used to manage API keys containers.
 """
 
+from pyramid.decorator import reify
 from pyramid.view import view_config
 
 from pyams_auth_apikey.interfaces import IAPIKeyConfiguration
@@ -58,7 +59,7 @@ class APIKeyContainerTable(Table):
 
     display_if_empty = True
 
-    @property
+    @reify
     def data_attributes(self):
         attributes = super().data_attributes
         configuration = IAPIKeyConfiguration(self.context)
