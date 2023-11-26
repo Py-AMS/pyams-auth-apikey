@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: pyams-auth-apikey
-Version: 1.0.0
+Version: 1.0.1
 Summary: PyAMS authentication module using API keys
 Home-page: https://pyams.readthedocs.io
 Author: Thierry Florac
@@ -12,8 +12,25 @@ Classifier: Development Status :: 4 - Beta
 Classifier: Programming Language :: Python
 Classifier: Framework :: Pyramid
 Classifier: Topic :: Software Development :: Libraries :: Python Modules
-Provides-Extra: test
 License-File: LICENSE
+Requires-Dist: setuptools
+Requires-Dist: ZODB
+Requires-Dist: persistent
+Requires-Dist: pyams_security
+Requires-Dist: pyams_utils
+Requires-Dist: pyramid
+Requires-Dist: zope.container
+Requires-Dist: zope.interface
+Requires-Dist: zope.schema
+Provides-Extra: test
+Requires-Dist: pyams_form; extra == "test"
+Requires-Dist: pyams_layer; extra == "test"
+Requires-Dist: pyams_security_views; extra == "test"
+Requires-Dist: pyams_site; extra == "test"
+Requires-Dist: pyams_skin>=1.9.0; extra == "test"
+Requires-Dist: pyams_viewlet; extra == "test"
+Requires-Dist: pyams_zmi; extra == "test"
+Requires-Dist: pyramid_zodbconn; extra == "test"
 
 ======================
 PyAMS API keys package
@@ -56,6 +73,10 @@ for all keys; maybe other authentication modes will be provided in future versio
 
 Changelog
 =========
+
+1.0.1
+-----
+ - interface cleanup
 
 1.0.0
 -----
