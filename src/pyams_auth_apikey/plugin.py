@@ -273,7 +273,10 @@ class APIKeyConfiguration(Folder):
         apikey = self.get(name)
         if (apikey is None) or (not apikey.active):
             return None
-        return apikey.get_principal(request)
+        principal = apikey.get_principal(request)
+        if principal is not None:
+            return principal.id
+        return None
 
     @check_enabled
     @check_prefix
@@ -377,6 +380,8 @@ class APIKeyPlugin(metaclass=ClassPropertyType):
 
     def authenticate(self, credentials, request):
         """Authenticate provided credentials"""
+        if credentials.prefix != self.prefix:
+            return None
         configuration = self.configuration
         if configuration is None:
             return None

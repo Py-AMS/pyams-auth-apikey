@@ -176,15 +176,11 @@ Extracting credentials and authenticating
     >>> creds.id
     'apikey:test1'
 
-    >>> info = plugin.authenticate(creds, request)
-    >>> info is None
+    >>> principal_id = plugin.authenticate(creds, request)
+    >>> principal_id is None
     False
-    >>> info
-    <pyams_security.principal.PrincipalInfo object at 0x...>
-    >>> info.id
+    >>> principal_id
     'apikey:test1'
-    >>> info.title
-    'API key: Test key'
 
 We can try to associate an API key with a principal; but this requires a Beaker cache:
 
@@ -194,13 +190,9 @@ We can try to associate an API key with a principal; but this requires a Beaker 
     >>> cache_regions.update({'long': {'type': 'memory', 'expire': 0}})
 
     >>> apikey.principal_id = 'system:admin'
-    >>> info = plugin.authenticate(creds, request)
-    >>> info
-    <pyams_security.principal.PrincipalInfo object at 0x...>
-    >>> info.id
+    >>> principal_id = plugin.authenticate(creds, request)
+    >>> principal_id
     'system:admin'
-    >>> info.title
-    'System manager authentication'
 
 
 Getting principals
@@ -208,16 +200,16 @@ Getting principals
 
 API keys plugin can only retrieve principals which are not associated with another principal:
 
-    >>> principal = plugin.get_principal(info.id)
+    >>> principal = plugin.get_principal(principal_id)
     >>> principal is None
     True
 
     >>> apikey.principal_id = None
-    >>> info = plugin.authenticate(creds, request)
-    >>> info.id
+    >>> principal_id = plugin.authenticate(creds, request)
+    >>> principal_id
     'apikey:test1'
 
-    >>> principal = plugin.get_principal(info.id)
+    >>> principal = plugin.get_principal(principal_id)
     >>> principal
     <pyams_security.principal.PrincipalInfo object at 0x...>
     >>> principal.id
@@ -225,19 +217,19 @@ API keys plugin can only retrieve principals which are not associated with anoth
     >>> principal.title
     'API key: Test key'
 
-    >>> principal_key = plugin.get_principal(info.id, info=False)
+    >>> principal_key = plugin.get_principal(principal_id, info=False)
     >>> principal_key
     <pyams_auth_apikey.plugin.APIKey object at 0x...>
     >>> principal_key is apikey
     True
 
-    >>> plugin.get_all_principals(info.id)
+    >>> plugin.get_all_principals(principal_id)
     {'apikey:test1'}
 
 Let's update principal ID:
 
     >>> apikey.principal_id = 'system:admin'
-    >>> sorted(plugin.get_all_principals(info.id))
+    >>> sorted(plugin.get_all_principals(principal_id))
     ['apikey:test1', 'system:admin']
 
 
@@ -268,9 +260,9 @@ extraction:
     True
     >>> plugin.authenticate(creds, request) is None
     True
-    >>> plugin.get_principal(info.id) is None
+    >>> plugin.get_principal(principal_id) is None
     True
-    >>> plugin.get_all_principals(info.id)
+    >>> plugin.get_all_principals(principal_id)
     set()
     >>> list(plugin.find_principals('key'))
     []
@@ -285,9 +277,9 @@ extraction:
     True
     >>> plugin.authenticate(creds, request) is None
     True
-    >>> plugin.get_principal(info.id) is None
+    >>> plugin.get_principal(principal_id) is None
     True
-    >>> plugin.get_all_principals(info.id)
+    >>> plugin.get_all_principals(principal_id)
     set()
     >>> list(plugin.find_principals('key'))
     []
