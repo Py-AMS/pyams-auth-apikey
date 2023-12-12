@@ -33,6 +33,7 @@ from pyams_form.interfaces.form import IAJAXFormRenderer, IDataExtractedEvent, I
 from pyams_layer.interfaces import IPyAMSLayer
 from pyams_security.interfaces import ISecurityManager, IViewContextPermissionChecker
 from pyams_security.interfaces.base import MANAGE_SECURITY_PERMISSION
+from pyams_skin.interfaces.view import IModalAddForm, IModalEditForm
 from pyams_skin.interfaces.viewlet import IFormHeaderViewletManager
 from pyams_skin.viewlet.actions import ContextAddAction
 from pyams_skin.viewlet.help import AlertMessage
@@ -45,7 +46,8 @@ from pyams_utils.url import absolute_url
 from pyams_viewlet.viewlet import viewlet_config
 from pyams_zmi.form import AdminModalAddForm, AdminModalEditForm, FormGroupChecker
 from pyams_zmi.helper.event import get_json_table_row_add_callback, get_json_table_row_refresh_callback
-from pyams_zmi.interfaces import IAdminLayer
+from pyams_zmi.interfaces import IAdminLayer, TITLE_SPAN_BREAK
+from pyams_zmi.interfaces.form import IFormTitle
 from pyams_zmi.interfaces.table import ITableElementEditor
 from pyams_zmi.interfaces.viewlet import IToolbarViewletManager
 from pyams_zmi.table import TableElementEditor
@@ -78,16 +80,8 @@ class APIKeyAddAction(ContextAddAction):
 class APIKeyAddForm(AdminModalAddForm):
     """API key add form"""
 
-    @property
-    def title(self):
-        """Form title getter"""
-        translate = self.request.localizer.translate
-        manager = get_utility(ISecurityManager)
-        return '<small>{}</small><br />{}'.format(
-            get_object_label(manager, self.request, self),
-            translate(_("Plug-in: API keys authentication")))
-
-    legend = _("Add API key")
+    subtitle = _("New API key")
+    legend = _("New API key properties")
 
     fields = Fields(IAPIKey).omit('hash', 'enabled', 'restrict_referrers', 'allowed_referrers')
     fields['key'].widget_factory = TextCopyFieldWidget
@@ -123,6 +117,17 @@ class APIKeyAddForm(AdminModalAddForm):
     def add(self, obj):
         """Add API key to container"""
         self.context[obj.name] = obj
+
+
+@adapter_config(required=(IAPIKeyConfiguration, IAdminLayer, IModalAddForm),
+                provides=IFormTitle)
+def apikey_add_form_title(context, request, form):
+    """API key add form title getter"""
+    translate = request.localizer.translate
+    manager = get_utility(ISecurityManager)
+    return TITLE_SPAN_BREAK.format(
+        get_object_label(manager, request, form),
+        translate(_("Plug-in: API keys authentication")))
 
 
 @adapter_config(name='referrers.group',
@@ -196,14 +201,9 @@ class APIKeyPropertiesEditForm(AdminModalEditForm):
     """API key properties edit form"""
 
     @property
-    def title(self):
-        """Form title getter"""
+    def subtitle(self):
         translate = self.request.localizer.translate
-        manager = get_utility(ISecurityManager)
-        return '<small>{}</small><br />{}<br /><small>{}</small>'.format(
-            get_object_label(manager, self.request, self),
-            translate(_("Plug-in: API keys authentication")),
-            translate(_("API key: {}")).format(self.context.label))
+        return translate(_("API key: {}")).format(self.context.label)
 
     legend = _("API key properties")
 
@@ -215,6 +215,17 @@ class APIKeyPropertiesEditForm(AdminModalEditForm):
         name = self.widgets.get('name')
         if name is not None:
             name.mode = DISPLAY_MODE
+
+
+@adapter_config(required=(IAPIKey, IAdminLayer, IModalEditForm),
+                provides=IFormTitle)
+def apikey_edit_form_title(context, request, form):
+    """API key add form title getter"""
+    translate = request.localizer.translate
+    manager = get_utility(ISecurityManager)
+    return TITLE_SPAN_BREAK.format(
+        get_object_label(manager, request, form),
+        translate(_("Plug-in: API keys authentication")))
 
 
 @adapter_config(name='referrers.group',
