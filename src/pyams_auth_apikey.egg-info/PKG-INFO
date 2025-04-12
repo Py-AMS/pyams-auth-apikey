@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
-Name: pyams-auth-apikey
-Version: 1.0.1
+Name: pyams_auth_apikey
+Version: 2.0.1
 Summary: PyAMS authentication module using API keys
 Home-page: https://pyams.readthedocs.io
 Author: Thierry Florac
@@ -18,7 +18,7 @@ Requires-Dist: ZODB
 Requires-Dist: persistent
 Requires-Dist: pyams_security
 Requires-Dist: pyams_utils
-Requires-Dist: pyramid
+Requires-Dist: pyramid>=2.0.0
 Requires-Dist: zope.container
 Requires-Dist: zope.interface
 Requires-Dist: zope.schema
@@ -73,6 +73,14 @@ for all keys; maybe other authentication modes will be provided in future versio
 
 Changelog
 =========
+
+2.0.1
+-----
+ - updated modal forms title
+
+2.0.0
+-----
+ - upgraded to Pyramid 2.0
 
 1.0.1
 -----

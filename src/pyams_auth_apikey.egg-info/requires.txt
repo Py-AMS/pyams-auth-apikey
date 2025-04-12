@@ -3,7 +3,7 @@ ZODB
 persistent
 pyams_security
 pyams_utils
-pyramid
+pyramid>=2.0.0
 zope.container
 zope.interface
 zope.schema
