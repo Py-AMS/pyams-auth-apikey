@@ -19,11 +19,9 @@ from zope.container.interfaces import IContainer
 from zope.interface import Attribute, Interface, Invalid, invariant
 from zope.schema import Bool, BytesLine, Datetime, TextLine
 
-from pyams_security.interfaces.plugin import IAuthenticationPlugin, ICredentialsPlugin, IDirectorySearchPlugin
+from pyams_security.interfaces.plugin import IAuthenticationPlugin, ICredentialsPlugin, IDirectoryPlugin
 from pyams_security.schema import PrincipalField
 from pyams_utils.schema import TextLineListField
-from pyams_utils.traversing import get_parent
-
 
 __docformat__ = 'restructuredtext'
 
@@ -128,7 +126,7 @@ class IAPIKeyConfiguration(IContainer):
         """Get active API key with given ID"""
 
 
-class IAPIKeyPlugin(ICredentialsPlugin, IAuthenticationPlugin, IDirectorySearchPlugin):
+class IAPIKeyPlugin(ICredentialsPlugin, IAuthenticationPlugin, IDirectoryPlugin):
     """API keys authentication module"""
 
     configuration = Attribute("API keys configuration")

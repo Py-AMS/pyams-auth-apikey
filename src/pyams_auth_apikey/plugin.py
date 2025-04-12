@@ -15,7 +15,8 @@
 This is the main security plugin module used for API keys authentication.
 """
 
-from datetime import datetime
+from datetime import datetime, timezone
+from functools import partial, wraps
 
 from BTrees.OOBTree import OOBTree
 from ZODB.POSException import ConnectionStateError
@@ -132,7 +133,7 @@ class APIKey(Persistent, Contained):
         """Key activity checker"""
         if not self.enabled:
             return False
-        now = tztime(datetime.utcnow())
+        now = tztime(datetime.now(timezone.utc))
         if self.activation_date and (self.activation_date > now):
             return False
         if self.expiration_date and (self.expiration_date < now):
@@ -156,28 +157,30 @@ class APIKey(Persistent, Contained):
                              title=translate(_("API key: {}")).format(self.label))
 
 
-def check_enabled(func):
-    """Check for enabled configuration"""
+def check_enabled(func=None, *, default=None):
+    """Decorator to check for enabled plugin"""
+    if func is None:
+        return partial(check_enabled, default=default)
 
-    def inner_check(config, *args, **kwargs):
-        """Check for enabled instance"""
-        if not config.enabled:
-            return None
-        return func(config, *args, **kwargs)
+    @wraps(func)
+    def wrapper(plugin, *args, **kwargs):
+        if not plugin.enabled:
+            return default() if default is not None else None
+        return func(plugin, *args, **kwargs)
+    return wrapper
 
-    return inner_check
 
+def check_prefix(func=None, *, default=None):
+    """Decorator to check for principal ID prefix"""
+    if func is None:
+        return partial(check_prefix, default=default)
 
-def check_prefix(func):
-    """Check for principal ID prefix"""
-
-    def inner_check(config, principal_id, *args, **kwargs):
-        """Check for principal prefix"""
+    @wraps(func)
+    def wrapper(plugin, principal_id, *args, **kwargs):
         if not principal_id.startswith(f'{APIKEY_PREFIX}:'):
-            return None
-        return func(config, principal_id, *args, **kwargs)
-
-    return inner_check
+            return default() if default is not None else None
+        return func(plugin, principal_id, *args, **kwargs)
+    return wrapper
 
 
 @factory_config(IAPIKeyConfiguration)
@@ -290,8 +293,8 @@ class APIKeyConfiguration(Folder):
             return apikey.get_principal()
         return apikey
 
-    @check_enabled
-    @check_prefix
+    @check_enabled(default=set)
+    @check_prefix(default=set)
     def get_all_principals(self, principal_id):
         """Returns all principals matching given principal ID"""
         result = set()

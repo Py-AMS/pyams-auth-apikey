@@ -19,7 +19,7 @@ import hashlib
 import hmac
 import random
 import sys
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from pyramid.events import subscriber
 from zope.interface import Interface, Invalid
@@ -104,7 +104,7 @@ class APIKeyAddForm(AdminModalAddForm):
             key.readonly = 'readonly'
         expiration_date = self.widgets.get('expiration_date')
         if expiration_date is not None:
-            now = tztime(datetime.utcnow())
+            now = tztime(datetime.now(timezone.utc))
             expiration_date.value = now + timedelta(days=365)
 
     def update_content(self, obj, data):
