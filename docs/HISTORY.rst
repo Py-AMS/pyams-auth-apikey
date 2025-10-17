@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.1.1
+-----
+ - updated Gitlab CI
+
 2.1.0
 -----
  - added support for API keys provided via request parameters instead of HTTP headers
