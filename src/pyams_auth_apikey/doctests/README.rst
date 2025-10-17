@@ -195,10 +195,33 @@ We can try to associate an API key with a principal; but this requires a Beaker 
     'system:admin'
 
 
+Providing API keys as request params
+------------------------------------
+
+API keys are normally provided via an HTTP header, called 'X-API-Key' by default.
+By exception, you can allow an API key to be provided via a request parameter:
+
+    >>> apikey.allowed_as_request_param = True
+
+    >>> request = DummyRequest(params={'x-api-key': 'my-api-key'})
+    >>> manager.push({'request': request, 'registry': config.registry})
+    >>> creds = plugin.extract_credentials(request)
+    >>> creds
+    <pyams_security.credential.Credentials object at 0x...>
+    >>> creds.prefix
+    'apikey'
+    >>> creds.id
+    'apikey:test1'
+
+    >>> apikey.allowed_as_request_param = False
+
+
 Getting principals
 ------------------
 
 API keys plugin can only retrieve principals which are not associated with another principal:
+
+    >>> request = DummyRequest(headers={'X-API-Key': 'my-api-key'})
 
     >>> principal = plugin.get_principal(principal_id)
     >>> principal is None

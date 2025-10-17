@@ -98,6 +98,17 @@ class IAPIKey(Interface):
                                           description=_("Only selected referrers will be allowed to use this API key"),
                                           required=False)
 
+    allowed_as_request_param = Bool(title=_("Allowed as request param"),
+                                    description=_("If 'yes', this API key can be sent as a request URL parameter "
+                                                  "instead of an HTTP request header only"),
+                                    required=True,
+                                    default=False)
+    
+    request_param_name = TextLine(title=_("Request param name"),
+                                  description=_("Name of the request parameter used to send this API key"),
+                                  required=False,
+                                  default='x-api-key')
+
     active = Attribute("Key activity checker")
 
 

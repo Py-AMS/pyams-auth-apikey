@@ -58,10 +58,12 @@ class APIKey(Persistent, Contained):
     _enabled = FieldProperty(IAPIKey['enabled'])
     label = FieldProperty(IAPIKey['label'])
     _principal_id = FieldProperty(IAPIKey['principal_id'])
-    restrict_referrers = FieldProperty(IAPIKey['restrict_referrers'])
-    allowed_referrers = FieldProperty(IAPIKey['allowed_referrers'])
     _activation_date = FieldProperty(IAPIKey['activation_date'])
     _expiration_date = FieldProperty(IAPIKey['expiration_date'])
+    restrict_referrers = FieldProperty(IAPIKey['restrict_referrers'])
+    allowed_referrers = FieldProperty(IAPIKey['allowed_referrers'])
+    allowed_as_request_param = FieldProperty(IAPIKey['allowed_as_request_param'])
+    request_param_name = FieldProperty(IAPIKey['request_param_name'])
 
     def __init__(self, **kwargs):
         for key, value in kwargs.items():
@@ -222,6 +224,10 @@ class APIKeyConfiguration(Folder):
                     del self.by_principal[apikey.principal_id]
         super().__delitem__(key)
 
+    def get_active_keys(self):
+        """Iterator over active keys"""
+        yield from filter(lambda x: x.active, self.values())
+
     def update_key(self, apikey, old_principal_id, new_principal_id):
         """Update key"""
         keys = self.by_principal.get(old_principal_id)
@@ -261,7 +267,13 @@ class APIKeyConfiguration(Folder):
         """Extract credentials from request"""
         header = self.get_apikey_header(request)
         if header is None:
-            return None
+            for apikey in self.get_active_keys():
+                if apikey.allowed_as_request_param:
+                    header = request.params.get(apikey.request_param_name)
+                    if header is not None:
+                        break
+            else:
+                return None
         apikey = self.find_active_key(header)
         if apikey is None:
             return None

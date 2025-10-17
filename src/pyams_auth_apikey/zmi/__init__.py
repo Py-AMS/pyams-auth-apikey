@@ -83,7 +83,8 @@ class APIKeyAddForm(AdminModalAddForm):
     subtitle = _("New API key")
     legend = _("New API key properties")
 
-    fields = Fields(IAPIKey).omit('hash', 'enabled', 'restrict_referrers', 'allowed_referrers')
+    fields = Fields(IAPIKey).omit('hash', 'enabled', 'restrict_referrers', 'allowed_referrers',
+                                  'allowed_as_request_param', 'request_param_name')
     fields['key'].widget_factory = TextCopyFieldWidget
 
     content_factory = IAPIKey
@@ -137,6 +138,17 @@ class APIKeyAddFormReferrersGroup(FormGroupChecker):
     """API key add form referrers group"""
 
     fields = Fields(IAPIKey).select('restrict_referrers', 'allowed_referrers')
+    weight = 10
+
+
+@adapter_config(name='request-param.group',
+                required=(IAPIKeyConfiguration, IAdminLayer, APIKeyAddForm),
+                provides=IGroup)
+class APIKeyAddFormRequestParamsGroup(FormGroupChecker):
+    """API key add form request params group"""
+
+    fields = Fields(IAPIKey).select('allowed_as_request_param', 'request_param_name')
+    weight = 20
 
 
 @viewlet_config(name='add-api-key.header',
@@ -207,7 +219,8 @@ class APIKeyPropertiesEditForm(AdminModalEditForm):
 
     legend = _("API key properties")
 
-    fields = Fields(IAPIKey).omit('key', 'enabled', 'restrict_referrers', 'allowed_referrers')
+    fields = Fields(IAPIKey).omit('key', 'enabled', 'restrict_referrers', 'allowed_referrers',
+                                  'allowed_as_request_param', 'request_param_name')
 
     def update_widgets(self, prefix=None):
         """Widgets update"""
@@ -235,6 +248,17 @@ class APIKeyPropertiesEditFormReferrersGroup(FormGroupChecker):
     """API key properties edit form referrers group"""
 
     fields = Fields(IAPIKey).select('restrict_referrers', 'allowed_referrers')
+    weight = 10
+
+
+@adapter_config(name='request-param.group',
+                required=(IAPIKey, IAdminLayer, APIKeyPropertiesEditForm),
+                provides=IGroup)
+class APIKeyPropertiesEditFormRequestParamsGroup(FormGroupChecker):
+    """API key properties edit form request params group"""
+
+    fields = Fields(IAPIKey).select('allowed_as_request_param', 'request_param_name')
+    weight = 20
 
 
 @adapter_config(required=(IAPIKey, IAdminLayer, APIKeyPropertiesEditForm),
