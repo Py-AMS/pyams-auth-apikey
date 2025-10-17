@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.1.0
+-----
+ - added support for API keys provided via request parameters instead of HTTP headers
+
 2.0.2
 -----
  - refactored plugin methods decorators

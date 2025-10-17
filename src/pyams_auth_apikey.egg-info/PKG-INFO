@@ -1,6 +1,6 @@
-Metadata-Version: 2.1
+Metadata-Version: 2.4
 Name: pyams_auth_apikey
-Version: 2.0.1
+Version: 2.0.2
 Summary: PyAMS authentication module using API keys
 Home-page: https://pyams.readthedocs.io
 Author: Thierry Florac
@@ -31,6 +31,17 @@ Requires-Dist: pyams_skin>=1.9.0; extra == "test"
 Requires-Dist: pyams_viewlet; extra == "test"
 Requires-Dist: pyams_zmi; extra == "test"
 Requires-Dist: pyramid_zodbconn; extra == "test"
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: license-file
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: summary
 
 ======================
 PyAMS API keys package
@@ -73,6 +84,12 @@ for all keys; maybe other authentication modes will be provided in future versio
 
 Changelog
 =========
+
+2.0.2
+-----
+ - refactored plugin methods decorators
+ - replace `datetime.utcnow` call with `datime.now(timezone.utc)`
+ - added support for Python 3.12
 
 2.0.1
 -----
