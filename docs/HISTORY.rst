@@ -1,6 +1,11 @@
 Changelog
 =========
 
+2.1.2
+-----
+ - updated credentials extraction to handle use cases where several API keys don't use the same request
+   argument name
+
 2.1.1
 -----
  - updated Gitlab CI
