@@ -202,6 +202,14 @@ API keys are normally provided via an HTTP header, called 'X-API-Key' by default
 By exception, you can allow an API key to be provided via a request parameter:
 
     >>> apikey.allowed_as_request_param = True
+    >>> apikey.request_param_name = 'x-api-key'
+
+Let's try with a first request which don't provide this argument:
+
+    >>> request = DummyRequest(params={'x-my-key': 'my-api-key'})
+    >>> manager.push({'request': request, 'registry': config.registry})
+    >>> plugin.extract_credentials(request) is None
+    True
 
     >>> request = DummyRequest(params={'x-api-key': 'my-api-key'})
     >>> manager.push({'request': request, 'registry': config.registry})

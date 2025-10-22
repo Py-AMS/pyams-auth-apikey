@@ -265,19 +265,21 @@ class APIKeyConfiguration(Folder):
 
     def extract_credentials(self, request):
         """Extract credentials from request"""
+        apikey = None
         header = self.get_apikey_header(request)
-        if header is None:
-            for apikey in self.get_active_keys():
-                if apikey.allowed_as_request_param:
-                    header = request.params.get(apikey.request_param_name)
-                    if header is not None:
-                        break
-            else:
-                return None
-        apikey = self.find_active_key(header)
-        if apikey is None:
-            return None
-        return Credentials(APIKEY_PREFIX, f'{APIKEY_PREFIX}:{apikey.name}')
+        if header is not None:
+            apikey = self.find_active_key(header)
+        else:
+            for key in self.get_active_keys():
+                if key.allowed_as_request_param:
+                    hash = request.params.get(key.request_param_name)
+                    if hash is not None:
+                        apikey = self.find_active_key(hash)
+                        if apikey is not None:
+                            break
+        if apikey is not None:
+            return Credentials(APIKEY_PREFIX, f'{APIKEY_PREFIX}:{apikey.name}')
+        return None
 
     @check_enabled
     def authenticate(self, credentials, request):
